@@ -4,6 +4,10 @@
   
 这个程序是为了方便STM32CubeMX用户将由Cubemx生成的Makefile工程转化为VSCode工程而设计的。它可以帮助您快速转换项目配置，以便在VSCode中进行开发。  
   
+## 编译说明
+
+安装pyinstaller，执行```Pyinstaller ./AutoGenerator.spec```
+
 ## 使用说明  
   
 1. 下载并安装STM32CubeMX软件。  

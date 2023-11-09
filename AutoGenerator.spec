@@ -8,7 +8,7 @@ a = Analysis(
     ['AutoGenerator.py'],
     pathex=[],
     binaries=[],
-    datas=[("C:\\Users\\Retuze\\Documents\\AutoGenerator\\template",".\\template")],
+    datas=[(".\\template",".\\template")],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
