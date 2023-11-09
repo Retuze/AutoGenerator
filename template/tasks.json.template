@@ -1,0 +1,50 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "下载",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "mk.mk",
+                "download"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+            },
+            "group": "build",
+            "presentation": { 
+                "panel": "shared",
+            }
+        },
+        {
+            "label": "编译",
+            "type": "shell",
+            "command": "make",
+            "args": [
+                "-f",
+                "mk.mk",
+                "-j12"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "presentation": { 
+                "panel": "shared", 
+            }
+        },
+        {
+            "label": "编译并下载",
+            "group": "none",
+            "presentation": { 
+                "panel": "shared",
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": ["编译", "下载"]
+        }
+    ]
+}
