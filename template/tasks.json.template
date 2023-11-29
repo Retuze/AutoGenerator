@@ -6,11 +6,20 @@
         {
             "label": "下载",
             "type": "shell",
-            "command": "make",
+            "command": "openocd",
             "args": [
                 "-f",
-                "mk.mk",
-                "download"
+                "#target.cfg#",
+                "-f",
+                "#interface.cfg#",
+                "-c",
+                "init",
+                "-c",
+                "reset halt; wait_halt; flash write_image erase build/#target#.bin 0x08000000",
+                "-c",
+                "reset",
+                "-c",
+                "shutdown"
             ],
             "options": {
                 "cwd": "${workspaceFolder}",

@@ -2,7 +2,7 @@
 Author        : Retuze 
 Date          : 2023-11-05 17:19:53
 LastEditors   : Retuze 
-LastEditTime  : 2023-11-09 19:07:01
+LastEditTime  : 2023-11-30 01:11:35
 Description   : 通过cubemx生成的Makefile生成一个适合vscode的工程,需要提前安装arm-none-eabi-gcc,STM32CubeMX
 '''
 import os
@@ -41,6 +41,7 @@ def init_file():
     class Info:
         cpu_define = ''
         openocd_cpu_model = ''
+        target = ''
     with open('Makefile', 'r', encoding="utf-8") as f:
         data = f.read().replace("\\\n", " ")  # 读取文本,把文本中的换行符去掉
         lines = data.splitlines()  # 按行分割
@@ -50,6 +51,8 @@ def init_file():
             if not line.find("C_DEFS =") == -1:
                 Info.cpu_define = line.split()[3][2:]
                 Info.openocd_cpu_model = line.split()[3][2:9].lower()+"x.cfg"
+            if not line.find("TARGET =") == -1:
+                Info.target = line[9:]
     with open(get_real_path('template/launch.json.template'), 'r', encoding="utf-8") as f:
         launch_str = f.read()
     with open('.vscode/launch.json', "w", encoding="utf-8") as f:
@@ -70,6 +73,12 @@ def init_file():
     with open(get_real_path('template/tasks.json.template'), "r", encoding="utf-8") as f:
         tasks_str = f.read()
     with open('.vscode/tasks.json', "w", encoding="utf-8") as f:
+        tasks_str = tasks_str.replace(
+            "#interface.cfg#", f'{getcwd_by_name("openocd.exe")[:-16]}/share/openocd/scripts/interface/cmsis-dap.cfg')
+        tasks_str = tasks_str.replace(
+            "#target.cfg#", f'{getcwd_by_name("openocd.exe")[:-16]}/share/openocd/scripts/target/{Info.openocd_cpu_model}')
+        tasks_str = tasks_str.replace('#target#',Info.target)
+        tasks_str = tasks_str.replace("\\", '/')
         f.write(tasks_str)
 
 def edit_mk():
