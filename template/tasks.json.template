@@ -9,9 +9,9 @@
             "command": "openocd",
             "args": [
                 "-f",
-                "#target.cfg#",
-                "-f",
                 "#interface.cfg#",
+                "-f",
+                "#target.cfg#",
                 "-c",
                 "init",
                 "-c",
@@ -27,7 +27,10 @@
             "group": "build",
             "presentation": { 
                 "panel": "shared",
-            }
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "编译",
@@ -44,7 +47,40 @@
             "group": "test",
             "presentation": { 
                 "panel": "shared", 
-            }
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "分析固件大小",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "Build-Analyzer.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "presentation": { 
+                "panel": "shared", 
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "编译并分析固件大小",
+            "group": "none",
+            "presentation": { 
+                "panel": "shared",
+            },
+            "dependsOrder": "sequence",
+            "dependsOn": ["编译", "分析固件大小"],
+            "problemMatcher": [
+                "$gcc"
+            ]
         },
         {
             "label": "编译并下载",
@@ -53,7 +89,10 @@
                 "panel": "shared",
             },
             "dependsOrder": "sequence",
-            "dependsOn": ["编译", "下载"]
+            "dependsOn": ["编译", "分析固件大小","下载"],
+            "problemMatcher": [
+                "$gcc"
+            ]
         }
     ]
 }

@@ -80,7 +80,10 @@ def init_file():
         tasks_str = tasks_str.replace('#target#',Info.target)
         tasks_str = tasks_str.replace("\\", '/')
         f.write(tasks_str)
-
+    with open(get_real_path('template/Build-Analyzer.py'), "r", encoding="utf-8") as f:
+        build_analyzer_str = f.read()
+    with open('Build-Analyzer.py', "w", encoding="utf-8") as f:
+        f.write(build_analyzer_str)
 def edit_mk():
     def extract_text(start_string, end_string):
         with open("Makefile", 'r',encoding="utf-8") as f:
