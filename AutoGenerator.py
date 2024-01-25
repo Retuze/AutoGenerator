@@ -2,7 +2,7 @@
 Author        : Retuze 
 Date          : 2023-11-05 17:19:53
 LastEditors   : Retuze 
-LastEditTime  : 2023-11-30 01:11:35
+LastEditTime  : 2024-01-11 04:03:53
 Description   : 通过cubemx生成的Makefile生成一个适合vscode的工程,需要提前安装arm-none-eabi-gcc,STM32CubeMX
 '''
 import os
@@ -24,17 +24,23 @@ def init_file():
     if not os.path.exists("Makefile"):
         print("Makefile不存在,请先用CubeMX生成Makefile工程")
         exit(-1)
+    # 遍历当前路径寻找链接脚本
+    ld = None
+    LDSCRIPT_LIST = glob.glob(r"./**/*.ld", recursive=True)
+    if LDSCRIPT_LIST:
+        for LDSCRIPT in LDSCRIPT_LIST:
+            ld = LDSCRIPT
+    else:
+        print("No matching .ld files found.")
+        exit(-1)
+    shutil.copyfile(ld,"ldscript.ld")
+
+    if not os.path.exists("docs"):
+        os.mkdir("docs")
+        with open("docs/readme.md", "w" , encoding="utf-8") as f:
+            f.write("# hello")
     if not os.path.exists("components"):
-        os.mkdir("components")
-        os.mkdir("components/input_output_redirection")
-        with open(get_real_path('template/ior.c'), "r", encoding="utf-8") as f:
-            ior_str = f.read()
-        with open('components/input_output_redirection/ior.c', "w", encoding="utf-8") as f:
-            f.write(ior_str)
-        with open(get_real_path('template/ior.h'), "r", encoding="utf-8") as f:
-            ior_str = f.read()
-        with open('components/input_output_redirection/ior.h', "w", encoding="utf-8") as f:
-            f.write(ior_str)
+        shutil.copytree(get_real_path('template/components'), 'components')
     if os.path.exists('.vscode'):
         shutil.rmtree(".vscode")
     os.mkdir(".vscode")
@@ -96,8 +102,8 @@ def edit_mk():
             return text[start_index + len(start_string):end_index]
         else:
             return "未找到指定的字符串"
-    str1 = extract_text("# target","# binaries")
-    str2 = extract_text("# CFLAGS","# compile gcc flags")
+    str1 = extract_text("# target","# source")
+    str2 = extract_text("# CFLAGS","# AS includes")
     str3 = extract_text("# link script","# libraries")
     with open(get_real_path('template/makefile.template'), "r", encoding="utf-8") as f:
         make_data = f.read()

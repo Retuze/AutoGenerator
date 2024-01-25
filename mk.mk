@@ -29,7 +29,28 @@ endif
 
 ######################################
 # target
-#str1#
+
+######################################
+TARGET = UART
+
+
+######################################
+# building variables
+######################################
+# debug build?
+DEBUG = 1
+# optimization
+OPT = -Og
+
+
+#######################################
+# paths
+#######################################
+# Build path
+BUILD_DIR = build
+
+######################################
+
 # binaries
 #######################################
 # 排除文件夹
@@ -64,7 +85,31 @@ BIN = $(CP) -O binary -S
 #######################################
 # CFLAGS
 
-#str2#
+
+#######################################
+# cpu
+CPU = -mcpu=cortex-m3
+
+# fpu
+# NONE for Cortex-M0/M0+/M3
+
+# float-abi
+
+
+# mcu
+MCU = $(CPU) -mthumb $(FPU) $(FLOAT-ABI)
+
+# macros for gcc
+# AS defines
+AS_DEFS = 
+
+# C defines
+C_DEFS =  \
+-DUSE_HAL_DRIVER \
+-DSTM32F103xB
+
+
+
 
 # compile gcc flags
 C_INCLUDES += $(sort $(foreach d,$(call rwildcard,$(SOURCES),*.h),$(dir -I$d)))
@@ -87,7 +132,10 @@ CFLAGS += -MMD -MP -MF"$(@:%.o=%.d)"
 #######################################
 # link script
 
-LDSCRIPT = ldscript.ld
+
+LDSCRIPT = STM32F103C8Tx_FLASH.ld
+
+
 
 # libraries
 LIBS = -lc -lm -lnosys 

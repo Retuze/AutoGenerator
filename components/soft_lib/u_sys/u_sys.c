@@ -2,17 +2,17 @@
 # Author        : Retuze 
 # Date          : 2023-11-09 19:44:13
 # LastEditors   : Retuze 
-# LastEditTime  : 2023-11-09 19:45:36
+# LastEditTime  : 2024-01-11 03:48:54
 # Description   : 
 *********************************************/
-#include "ior.h"
+#include "u_sys.h"
 
 /// @brief 该函数为printf底层发送函数，通过重写该函数完成printf重定向
 /// @param fd
 /// @param pBuffer
 /// @param size
 /// @return
-int _write(int fd, char *pBuffer, int size)
+__attribute__((weak)) int _write(int fd, char *pBuffer, int size)
 {
     return 0;
 }

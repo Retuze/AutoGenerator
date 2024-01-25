@@ -9,13 +9,13 @@
             "command": "openocd",
             "args": [
                 "-f",
-                "#interface.cfg#",
+                "C:/Users/Retuze/App/openocd/share/openocd/scripts/interface/cmsis-dap.cfg",
                 "-f",
-                "#target.cfg#",
+                "C:/Users/Retuze/App/openocd/share/openocd/scripts/target/stm32f1x.cfg",
                 "-c",
                 "init",
                 "-c",
-                "reset halt; wait_halt; flash write_image erase build/#target#.bin 0x08000000",
+                "reset halt; wait_halt; flash write_image erase build/UART.bin 0x08000000",
                 "-c",
                 "reset",
                 "-c",
@@ -90,38 +90,6 @@
             },
             "dependsOrder": "sequence",
             "dependsOn": ["编译", "分析固件大小","下载"],
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
-            "label": "清除",
-            "type": "shell",
-            "command": "make",
-            "args": [
-                "-f",
-                "mk.mk",
-                "clean"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": "test",
-            "presentation": { 
-                "panel": "shared", 
-            },
-            "problemMatcher": [
-                "$gcc"
-            ]
-        },
-        {
-            "label": "重新编译",
-            "group": "none",
-            "presentation": { 
-                "panel": "shared",
-            },
-            "dependsOrder": "sequence",
-            "dependsOn": ["清除","编译", "分析固件大小"],
             "problemMatcher": [
                 "$gcc"
             ]
