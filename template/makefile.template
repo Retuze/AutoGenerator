@@ -42,6 +42,7 @@ C_SOURCES += $(sort $(call rwildcard,$(SOURCES),*.c))
 CPP_SOURCES += $(sort $(call rwildcard,$(SOURCES),*.cpp))
 # ASM sources
 ASM_SOURCES += $(sort $(call rwildcard,$(SOURCES),*.s)) 
+ASM_SOURCESS += $(sort $(call rwildcard,$(SOURCES),*.S))
 PREFIX = arm-none-eabi-
 # The gcc compiler bin path can be either defined in make command via GCC_PATH variable (> make GCC_PATH=xxx)
 # either it can be added to the PATH environment variable.
@@ -110,6 +111,8 @@ vpath %.cpp $(sort $(dir $(CPP_SOURCES)))
 # list of ASM program objects
 OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCES:.s=.o)))
 vpath %.s $(sort $(dir $(ASM_SOURCES)))
+OBJECTS += $(addprefix $(BUILD_DIR)/,$(notdir $(ASM_SOURCESS:.S=.o)))
+vpath %.S $(sort $(dir $(ASM_SOURCESS)))
 
 $(BUILD_DIR)/%.o: %.c mk.mk | $(BUILD_DIR) 
 	$(AT)$(call print,compiling,$<,...)
@@ -118,6 +121,9 @@ $(BUILD_DIR)/%.o: %.cpp mk.mk | $(BUILD_DIR)
 	$(AT)$(call print,compiling,$<,...)
 	$(AT)$(CPP) -c $(CFLAGS) -Wa,-a,-ad,-alms=$(BUILD_DIR)/$(notdir $(<:.cpp=.lst)) $< -o $@
 $(BUILD_DIR)/%.o: %.s mk.mk | $(BUILD_DIR)
+	$(AT)$(call print,assebmling,$<,...)
+	$(AT)$(AS) -c $(CFLAGS) $< -o $@
+$(BUILD_DIR)/%.o: %.S mk.mk | $(BUILD_DIR)
 	$(AT)$(call print,assebmling,$<,...)
 	$(AT)$(AS) -c $(CFLAGS) $< -o $@
 $(BUILD_DIR)/$(TARGET).elf: $(OBJECTS) mk.mk

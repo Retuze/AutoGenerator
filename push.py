@@ -8,6 +8,8 @@ Description   :
 import os
 import shutil
 
+os.system("pyinstaller AutoGenerator.spec")
+
 if os.path.exists(r"C:\Users\Retuze\App\project\AutoGenerator.exe"):
     os.remove(r"C:\Users\Retuze\App\project\AutoGenerator.exe")
     print("remove OK1 !")
