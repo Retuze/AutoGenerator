@@ -35,8 +35,9 @@
         {
             "label": "编译",
             "type": "shell",
-            "command": "make",
+            "command": "compiledb"
             "args": [
+                "make",
                 "-f",
                 "mk.mk",
                 "-j12"

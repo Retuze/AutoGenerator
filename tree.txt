@@ -1,0 +1,139 @@
+Folder PATH listing
+Volume serial number is 84E1-A8FB
+C:.
+│   .gitignore
+│   AutoGenerator.py
+│   AutoGenerator.spec
+│   Makefile
+│   push.py
+│   readme.md
+│   tool.ico
+│   tree.txt
+│   tree2txt.py
+│   
+├───.vscode
+│       c_cpp_properties.json
+│       launch.json
+│       tasks.json
+│       
+├───build
+│   └───AutoGenerator
+│       │   Analysis-00.toc
+│       │   AutoGenerator.exe.manifest
+│       │   AutoGenerator.pkg
+│       │   base_library.zip
+│       │   EXE-00.toc
+│       │   PKG-00.toc
+│       │   PYZ-00.pyz
+│       │   PYZ-00.toc
+│       │   warn-AutoGenerator.txt
+│       │   xref-AutoGenerator.html
+│       │   
+│       └───localpycs
+│               pyimod01_archive.pyc
+│               pyimod02_importers.pyc
+│               pyimod03_ctypes.pyc
+│               pyimod04_pywin32.pyc
+│               struct.pyc
+│               
+├───dist
+│       AutoGenerator.exe
+│       
+├───docs
+│       readme.md
+│       
+└───template
+    │   Build-Analyzer.py
+    │   c_cpp_properties.json.template
+    │   launch.json.template
+    │   makefile.template
+    │   tasks.json.template
+    │   
+    └───components
+        ├───app
+        │       app.cpp
+        │       app.h
+        │       userCmd.h
+        │       
+        ├───partfrom
+        │   │   partfrom.h
+        │   │   
+        │   ├───prefs
+        │   │       prefs.c
+        │   │       prefs.h
+        │   │       
+        │   ├───wiring
+        │   │   │   Arduino.h
+        │   │   │   digital_io.c
+        │   │   │   digital_io.h
+        │   │   │   wiring_time.c
+        │   │   │   wiring_time.h
+        │   │   │   
+        │   │   ├───HardwareSerial
+        │   │   │       HardwareSerial.cpp
+        │   │   │       HardwareSerial.h
+        │   │   │       
+        │   │   ├───HardwareSPI
+        │   │   │       HardwareSPI.cpp
+        │   │   │       HardwareSPI.h
+        │   │   │       
+        │   │   ├───HardwareTimer
+        │   │   │       HardwareTimer.cpp
+        │   │   │       HardwareTimer.h
+        │   │   │       
+        │   │   └───Wire
+        │   │           Wire.h
+        │   │           
+        │   └───write
+        │           write.cpp
+        │           write.h
+        │           
+        └───soft_lib
+            ├───data_struct
+            │   ├───fifo
+            │   │       fifo.h
+            │   │       kfifo.c
+            │   │       kfifo.h
+            │   │       
+            │   └───list
+            │           list.h
+            │           
+            ├───key
+            │       key.h
+            │       
+            ├───led
+            │       led.h
+            │       
+            ├───log
+            │       log.c
+            │       log.h
+            │       
+            ├───matrix_key
+            │       matrix_key.cpp
+            │       matrix_key.h
+            │       
+            ├───Print
+            │       Print.cpp
+            │       Print.h
+            │       Printable.h
+            │       
+            ├───rc522
+            │       MFRC522.cpp
+            │       MFRC522.h
+            │       
+            ├───shell
+            │       shell.cpp
+            │       shell.h
+            │       
+            ├───soft_spi
+            │       soft_spi.c
+            │       soft_spi.h
+            │       
+            ├───task
+            │       task.cpp
+            │       task.h
+            │       
+            └───u_sys
+                    u_sys.c
+                    u_sys.h
+                    

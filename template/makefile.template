@@ -69,7 +69,9 @@ BIN = $(CP) -O binary -S
 
 # compile gcc flags
 C_INCLUDES += $(sort $(foreach d,$(call rwildcard,$(SOURCES),*.h),$(dir -I$d)))
-
+C_INCLUDES += $(sort $(foreach d,$(call rwildcard,$(SOURCES),*.hpp),$(dir -I$d)))
+C_INCLUDES += -IC:/Users/Retuze/App/arm-gnu-toolchain/arm-none-eabi/include
+C_INCLUDES += -IC:/Users/Retuze/App/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/include
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

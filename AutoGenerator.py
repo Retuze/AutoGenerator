@@ -25,15 +25,16 @@ def init_file():
         print("Makefile不存在,请先用CubeMX生成Makefile工程")
         exit(-1)
     # 遍历当前路径寻找链接脚本
-    ld = None
-    LDSCRIPT_LIST = glob.glob(r"./**/*.ld", recursive=True)
-    if LDSCRIPT_LIST:
-        for LDSCRIPT in LDSCRIPT_LIST:
-            ld = LDSCRIPT
-    else:
-        print("No matching .ld files found.")
-        exit(-1)
-    shutil.copyfile(ld,"ldscript.ld")
+    if not os.path.exists("ldscript.ld"):
+        ld = None
+        LDSCRIPT_LIST = glob.glob(r"./**/*.ld", recursive=True)
+        if LDSCRIPT_LIST:
+            for LDSCRIPT in LDSCRIPT_LIST:
+                ld = LDSCRIPT
+        else:
+            print("No matching .ld files found.")
+            exit(-1)
+        shutil.copyfile(ld,"ldscript.ld")
 
     if not os.path.exists("docs"):
         os.mkdir("docs")
@@ -86,10 +87,16 @@ def init_file():
         tasks_str = tasks_str.replace('#target#',Info.target)
         tasks_str = tasks_str.replace("\\", '/')
         f.write(tasks_str)
-    with open(get_real_path('template/Build-Analyzer.py'), "r", encoding="utf-8") as f:
-        build_analyzer_str = f.read()
-    with open('Build-Analyzer.py', "w", encoding="utf-8") as f:
-        f.write(build_analyzer_str)
+    if not os.path.exists("Build-Analyzer.py"):
+        with open(get_real_path('template/Build-Analyzer.py'), "r", encoding="utf-8") as f:
+            build_analyzer_str = f.read()
+        with open('Build-Analyzer.py', "w", encoding="utf-8") as f:
+            f.write(build_analyzer_str)
+    if not os.path.exists(".gitignore"):
+        with open(get_real_path('template/.gitignore'), "r", encoding="utf-8") as f:
+            build_analyzer_str = f.read()
+        with open('.gitignore', "w", encoding="utf-8") as f:
+            f.write(build_analyzer_str)
 def edit_mk():
     def extract_text(start_string, end_string):
         with open("Makefile", 'r',encoding="utf-8") as f:
