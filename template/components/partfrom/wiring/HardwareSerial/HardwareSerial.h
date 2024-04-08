@@ -1,63 +1,64 @@
 #ifndef _HARDWARESERIAL_H_
 #define _HARDWARESERIAL_H_
 
-#include "Print.h"
-#include "fifo.h"
+#include "usart.h"
 #include "partfrom.h"
 
 #ifdef __cplusplus
-extern "C"
-{
+extern "C" {
 #endif
 
-    void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size);
+void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef* huart, uint16_t Size);
 
 #ifdef __cplusplus
 }
 
-class HardwareSerial : public Print
-{
+class HardwareSerial : public Print {
 private:
     FIFO fifo;
     uint8_t _lastDMASize = 0;
-    int _lastDATASize = 0;
-    void (*fun)(char *); // 接收到数据时的回调函数
-    size_t write(const uint8_t *str, size_t size)
+    size_t write(const uint8_t* str, size_t size)
     {
         HAL_UART_Transmit(huart, str, size, 100);
         return size;
     }
 
 public:
-    UART_HandleTypeDef *huart;
+    UART_HandleTypeDef* huart;
+    void (*fun)(); // 接收到数据时的回调函数
     void begin()
     {
-        HAL_UARTEx_ReceiveToIdle_DMA(huart, (uint8_t *)fifo.ring_buf->buffer, fifo.ring_buf->size);
+        
+        HAL_UARTEx_ReceiveToIdle_DMA(huart, (uint8_t*)fifo.ring_buf->buffer, fifo.ring_buf->size);
     }
-    void get(UART_HandleTypeDef *huart, uint16_t Size)
+    void get(UART_HandleTypeDef* huart, uint16_t Size)
     {
-        if (huart == this->huart)
-        {
-            // ulog("缓冲区大小：%d\r\n",Size);
-            // ulog("上次缓冲区大小：%d\r\n",_lastDMASize);
-            // ulog("中断类型：%d\r\n",huart->RxEventType);
+        if (huart == this->huart) {
             fifo.ring_buf->in += (Size - _lastDMASize);
             (huart->RxEventType == HAL_UART_RXEVENT_TC) ? _lastDMASize = 0 : _lastDMASize = Size;
         }
     }
-    HardwareSerial(UART_HandleTypeDef *huart)
+    HardwareSerial(UART_HandleTypeDef* huart)
     {
         this->huart = huart;
     }
-    char *read()
+    // 当buff为NULL时，调用malloc动态创建
+    char* read(char* buff = NULL)
     {
-        char *buff = (char *)calloc(fifo.length() + 1, sizeof(char));
+        if (buff == NULL) {
+            buff = (char*)calloc(fifo.length() + 1, sizeof(char));
+        }
         fifo.get(buff, fifo.length());
         return buff;
     }
-    char *peek()
+    char* read(char* buff ,int len)
     {
-        char *buff = (char *)calloc(fifo.length() + 1, sizeof(char));
+        fifo.get(buff, len);
+        return buff;
+    }
+    char* peek()
+    {
+        char* buff = (char*)calloc(fifo.length() + 1, sizeof(char));
         fifo.peek(buff, fifo.length());
         return buff;
     }
@@ -65,20 +66,9 @@ public:
     {
         return fifo.length();
     }
-    /// @brief 在两次接收到数据没有发生改变后，认为接收到了完整的命令，执行fun函数
-    /// @param fun
-    /// @return
-    void run()
-    {
-        if (available()&&available() == _lastDATASize)
-        {
-            char *str = read();
-            fun(str);
-            free(str);
-        }
-        _lastDATASize = available();
-    }
-    void attachCallback(void (*fun)(char *))
+
+    // 在接收中断触发时，调用绑定的回调
+    void onReceive(void (*fun)())
     {
         this->fun = fun;
     }

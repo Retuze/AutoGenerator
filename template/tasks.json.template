@@ -35,7 +35,7 @@
         {
             "label": "编译",
             "type": "shell",
-            "command": "compiledb"
+            "command": "compiledb",
             "args": [
                 "make",
                 "-f",

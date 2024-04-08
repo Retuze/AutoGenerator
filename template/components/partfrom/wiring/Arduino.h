@@ -1,18 +1,15 @@
-/*******************************************
-# Author        : Retuze 
-# Date          : 2024-01-18 10:07:29
-# LastEditors   : Retuze 
-# LastEditTime  : 2024-01-18 10:13:14
-# Description   : 
-*********************************************/
 #ifndef _ARDUINO_H_
 #define _ARDUINO_H_
 
 #include "digital_io.h"
 #include "wiring_time.h"
 #include "HardwareSerial.h"
-#include "HardwareTimer.h"
-#include "HardwareSPI.h"
+
+#define bitRead(value, bit) (((value) >> (bit)) & 0x01)
+#define bitSet(value, bit) ((value) |= (1UL << (bit)))
+#define bitClear(value, bit) ((value) &= ~(1UL << (bit)))
+#define bitToggle(value, bit) ((value) ^= (1UL << (bit)))
+#define bitWrite(value, bit, bitvalue) ((bitvalue) ? bitSet(value, bit) : bitClear(value, bit))
 
 typedef uint8_t byte;
 

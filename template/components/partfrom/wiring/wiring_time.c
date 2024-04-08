@@ -1,10 +1,3 @@
-/*******************************************
-# Author        : Retuze
-# Date          : 2024-01-18 09:46:11
-# LastEditors   : Retuze
-# LastEditTime  : 2024-01-18 09:59:19
-# Description   :
-*********************************************/
 #include "wiring_time.h"
 
 uint32_t millis(void)

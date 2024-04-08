@@ -34,8 +34,9 @@ endif
 #######################################
 # 排除文件夹
 FILTER = docs
-# 编译文件夹 默认为根目录
-SOURCES = $(filter-out $(FILTER),$(wildcard *))
+BUILD_FILE = . 
+# 编译文件夹 默认为工作目录加库目录
+SOURCES = $(filter-out $(FILTER),$(foreach d,$(BUILD_FILE),$(wildcard $(d)/*)))
 # C sources
 C_SOURCES += $(sort $(call rwildcard,$(SOURCES),*.c)) 
 # CPP sources
@@ -70,8 +71,7 @@ BIN = $(CP) -O binary -S
 # compile gcc flags
 C_INCLUDES += $(sort $(foreach d,$(call rwildcard,$(SOURCES),*.h),$(dir -I$d)))
 C_INCLUDES += $(sort $(foreach d,$(call rwildcard,$(SOURCES),*.hpp),$(dir -I$d)))
-C_INCLUDES += -IC:/Users/Retuze/App/arm-gnu-toolchain/arm-none-eabi/include
-C_INCLUDES += -IC:/Users/Retuze/App/arm-gnu-toolchain/lib/gcc/arm-none-eabi/13.2.1/include
+
 ASFLAGS = $(MCU) $(AS_DEFS) $(AS_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections
 
 CFLAGS += $(MCU) $(C_DEFS) $(C_INCLUDES) $(OPT) -Wall -fdata-sections -ffunction-sections

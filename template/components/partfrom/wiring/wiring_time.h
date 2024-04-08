@@ -1,13 +1,7 @@
-/*******************************************
-# Author        : Retuze
-# Date          : 2024-01-18 09:46:22
-# LastEditors   : Retuze
-# LastEditTime  : 2024-01-18 09:46:22
-# Description   :
-*********************************************/
 #ifndef _WIRING_TIME_H_
 #define _WIRING_TIME_H_
 
+#include "main.h"
 #include "partfrom.h"
 
 #ifdef __cplusplus

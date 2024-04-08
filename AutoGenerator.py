@@ -60,6 +60,10 @@ def init_file():
                 Info.openocd_cpu_model = line.split()[3][2:9].lower()+"x.cfg"
             if not line.find("TARGET =") == -1:
                 Info.target = line[9:]
+    with open(get_real_path('template/settings.json.template'), 'r', encoding="utf-8") as f:
+        setting_str = f.read()
+    with open('.vscode/settings.json', "w", encoding="utf-8") as f:
+        f.write(setting_str)
     with open(get_real_path('template/launch.json.template'), 'r', encoding="utf-8") as f:
         launch_str = f.read()
     with open('.vscode/launch.json', "w", encoding="utf-8") as f:
